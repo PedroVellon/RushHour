@@ -96,6 +96,9 @@ To achieve top-tier execution times, several micro-optimizations were implemente
    * `HashMap` for the closed list (visited states) mapping serialized strings to values, allowing O(1) expected time complexity to prune redundant paths.
    * `HashSet` used during the initial O(n) verification phase to quickly detect duplicate identifiers.
 
+## 🙏 Acknowledgements
+I would like to express my gratitude to the professors of the Intelligent Systems course at the Escuela Superior de Informática (ESI-UCLM) for their guidance and for providing such an engaging algorithmic challenge. A special thanks to **David Carneros Prado** and **Julio Alberto López Gómez** for their continuous help, support, and motivation.
+
 ---
 
 <a id="español"></a>
@@ -190,3 +193,6 @@ Para alcanzar tiempos de ejecución de primer nivel, se sacrificaron ciertas com
    * Uso de `PriorityQueue` (inserción ordenada) en la frontera de búsqueda para mantener los nodos ordenados por coste y heurística con una eficiencia de O(log n).
    * Uso de `HashMap` para la lista de nodos cerrados (visitados), mapeando las cadenas serializadas a sus valores, permitiendo podar caminos redundantes en un tiempo esperado de O(1).
    * Uso de `HashSet` en la fase de verificación inicial para detectar vehículos duplicados en tiempo O(n).
+
+## 🙏 Agradecimientos
+Quiero expresar mi agradecimiento a los profesores de la asignatura de Sistemas Inteligentes de la Escuela Superior de Informática (ESI-UCLM) por su orientación y por proponer un desafío algorítmico tan estimulante. Una mención y agradecimiento especial a **David Carneros Prado** y **Julio Alberto López Gómez** por su constante ayuda, apoyo y motivación.
