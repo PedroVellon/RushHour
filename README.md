@@ -1,4 +1,4 @@
-# 🚗 Rush Hour
+# 🚗 Rush Hour Algorithmic Solver 
 
 [![Java](https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=java&logoColor=white)]()
 [![Search Algorithms](https://img.shields.io/badge/Algorithms-A%2A%20%7C%20BFS%20%7C%20DFS-blue?style=flat-square)]()
@@ -9,7 +9,7 @@
 <a id="english"></a>
 An advanced, highly-optimized algorithmic solver for the classic **Rush Hour** puzzle game. Modeled as a state-space search problem, this engine explores thousands of potential board configurations to find the optimal sequence of moves to free the red car ('A') from a traffic jam.
 
-🏆 **Achievement:** This implementation achieved **3rd place in the global efficiency and execution time ranking** of my university cohort, only surpassed by two legacy implementations written in low-level languages by the teaching staff.
+🏆 **Achievement:** This implementation achieved **3rd place in the global efficiency and execution time ranking** of my university cohort, only surpassed by two legacy implementations written in low-level C/COBOL by the teaching staff.
 
 ## 🧠 The Problem
 Rush Hour is played on a 6x6 grid. Vehicles (cars of length 2 and trucks of length 3) are placed horizontally or vertically. They can only move forward and backward along their axis. The goal is to clear a path so the red car ('A'), starting in a central row, can exit through the right edge of the board.
@@ -36,6 +36,48 @@ You can query specific details about any given board state or simulate interacti
 * `--goal`: Evaluates the board and returns `TRUE` if the red car has reached the exit, or `FALSE` otherwise.
 * `--move <move_list>`: Simulates a comma-separated list of consecutive moves (e.g., `A+1,B-1`) and returns the resulting board state string.
 
+### 💻 Usage Examples
+
+**1. Querying Board State & Simulating Moves:**
+```bash
+> java RushHour question -s BBDDCoEoooCKEoAACKGoooooGoooooGoHHHo --whereis C
+(0,4)(1,4)(2,4)
+
+> java RushHour question -s IBBBoDIooJoDoAAJoooooJoMKKoooMooHHHo --what 3,5
+M
+
+> java RushHour question -s IoBBCCIDooooIDoAAoooJooMKKJooMoooHHH --size M
+2
+
+> java RushHour question -s IBBoooIoooDDJAAoooJoKEEMooKooMGGHHHM --howmany
+10
+
+> java RushHour question -s IBBoooIoooDDJoAAooJoKEEMooKooMGGHHHM --goal
+FALSE
+
+> java RushHour question -s IBBoooIoooDDJoAAooJoKEEMooKooMGGHHHM --move A+1,A+1
+IBBoooIoooDDJoooAAJoKEEMooKooMGGHHHM
+```
+
+**2. Solving a Complex Level using A'*' Search (with Heuristic 2 and Stats):**
+```text
+> java RushHour solver -s HBBCCCHDDKoMAAJKoMEEJFFMoIooLooIGGLo --strategy AStar --heuristic 2 --stats
+ [0,none,___,HBBCCCHDDKoMAAJKoMEEJFFMoIooLooIGGLo,0,0,7,7]
+ [1,0,J-1,HBBCCCHDDKoMAAoKoMEEJFFMoIJoLooIGGLo,5,1,6,11]
+ [7,1,A+1,HBBCCCHDDKoMoAAKoMEEJFFMoIJoLooIGGLo,10,2,5,15]
+ [19,7,H-1,oBBCCCHDDKoMHAAKoMEEJFFMoIJoLooIGGLo,15,3,5,20]
+ [30,19,B-1,BBoCCCHDDKoMHAAKoMEEJFFMoIJoLooIGGLo,20,4,5,25]
+ ... [output truncated for brevity] ...
+ [23466,23199,M-3,BBCCCoHIDDooHIAAooEEFFoMooJKLMGGJKLM,157,39,2,159]
+ [23735,23466,A+2,BBCCCoHIDDooHIooAAEEFFoMooJKLMGGJKLM,161,40,0,161]
+  
+ ET: [your_time]ms
+ TN: 23977
+ EN: 3062
+ CN: 20329
+ DF: 40
+```
+
 ### Supported Search Strategies
 * **Uninformed Search:** `BFS` (Breadth-First), `DFS` (Depth-First), `UCS` (Uniform Cost Search).
 * **Informed (Heuristic) Search:** `GBF` (Greedy Best-First), `AStar` (A* Search).
@@ -54,80 +96,10 @@ To achieve top-tier execution times, several micro-optimizations were implemente
    * `HashMap` for the closed list (visited states) mapping serialized strings to values, allowing O(1) expected time complexity to prune redundant paths.
    * `HashSet` used during the initial O(n) verification phase to quickly detect duplicate identifiers.
 
-### Examples of usage
-
-> java RushHour question -s BBDDCoEoooCKEoAACKGoooooGoooooGoHHHo --whereis C
-  (0,4)(1,4)(2,4)
-
-> question -s IBBBoDIooJoDoAAJoooooJoMKKoooMooHHHo --what 3,5
-  M
-
-> java RushHour question -s IoBBCCIDooooIDoAAoooJooMKKJooMoooHHH --size M
-  2
-
-> java RushHour question -s IBBoooIoooDDJAAoooJoKEEMooKooMGGHHHM --howmany
-  10
-
-> java RushHour question -s IBBoooIoooDDJoAAooJoKEEMooKooMGGHHHM --goal
-  FALSE
-
-> java RushHour question -s IBBoooIoooDDJoAAooJoKEEMooKooMGGHHHM --move A+1,A+1
-  IBBoooIoooDDJoooAAJoKEEMooKooMGGHHHM
-
-> java RushHour solver -s HBBCCCHDDKoMAAJKoMEEJFFMoIooLooIGGLo --strategy AStar --heuristic 2  --stats
-
-  [0,none,___,HBBCCCHDDKoMAAJKoMEEJFFMoIooLooIGGLo,0,0,7,7]
-  [1,0,J-1,HBBCCCHDDKoMAAoKoMEEJFFMoIJoLooIGGLo,5,1,6,11]
-  [7,1,A+1,HBBCCCHDDKoMoAAKoMEEJFFMoIJoLooIGGLo,10,2,5,15]
-  [19,7,H-1,oBBCCCHDDKoMHAAKoMEEJFFMoIJoLooIGGLo,15,3,5,20]
-  [30,19,B-1,BBoCCCHDDKoMHAAKoMEEJFFMoIJoLooIGGLo,20,4,5,25]
-  [43,30,C-1,BBCCCoHDDKoMHAAKoMEEJFFMoIJoLooIGGLo,25,5,5,30]
-  [55,43,M+1,BBCCCMHDDKoMHAAKoMEEJFFooIJoLooIGGLo,30,6,5,35]
-  [66,55,F+1,BBCCCMHDDKoMHAAKoMEEJoFFoIJoLooIGGLo,35,7,5,40]
-  [76,66,K-2,BBCCCMHDDooMHAAooMEEJKFFoIJKLooIGGLo,39,8,4,43]
-  [78,76,A+2,BBCCCMHDDooMHooAAMEEJKFFoIJKLooIGGLo,43,9,2,45]
-  [90,78,D+2,BBCCCMHooDDMHooAAMEEJKFFoIJKLooIGGLo,47,10,2,49]
-  [114,90,J+2,BBCCCMHoJDDMHoJAAMEEoKFFoIoKLooIGGLo,51,11,2,53]
-  [134,114,E+1,BBCCCMHoJDDMHoJAAMoEEKFFoIoKLooIGGLo,56,12,2,58]
-  [147,134,H-3,BBCCCMooJDDMooJAAMoEEKFFHIoKLoHIGGLo,59,13,2,61]
-  [148,147,E-1,BBCCCMooJDDMooJAAMEEoKFFHIoKLoHIGGLo,64,14,2,66]
-  [160,148,J-2,BBCCCMoooDDMoooAAMEEJKFFHIJKLoHIGGLo,68,15,2,70]
-  [166,160,D-3,BBCCCMDDoooMoooAAMEEJKFFHIJKLoHIGGLo,71,16,2,73]
-  [176,166,A-3,BBCCCMDDoooMAAoooMEEJKFFHIJKLoHIGGLo,74,17,5,79]
-  [255,176,J+2,BBCCCMDDJooMAAJooMEEoKFFHIoKLoHIGGLo,78,18,6,84]
-  [336,255,K+2,BBCCCMDDJKoMAAJKoMEEooFFHIooLoHIGGLo,82,19,7,89]
-  [441,336,F-2,BBCCCMDDJKoMAAJKoMEEFFooHIooLoHIGGLo,86,20,7,93]
-  [547,441,L+3,BBCCCMDDJKLMAAJKLMEEFFooHIooooHIGGoo,89,21,8,97]
-  [687,547,F+2,BBCCCMDDJKLMAAJKLMEEooFFHIooooHIGGoo,93,22,8,101]
-  [926,687,G+2,BBCCCMDDJKLMAAJKLMEEooFFHIooooHIooGG,97,23,8,105]
-  [1323,926,J-3,BBCCCMDDoKLMAAoKLMEEooFFHIJoooHIJoGG,100,24,7,107]
-  [1658,1323,K-3,BBCCCMDDooLMAAooLMEEooFFHIJKooHIJKGG,103,25,6,109]
-  [2011,1658,A+2,BBCCCMDDooLMooAALMEEooFFHIJKooHIJKGG,107,26,4,111]
-  [2525,2011,D+2,BBCCCMooDDLMooAALMEEooFFHIJKooHIJKGG,111,27,4,115]
-  [3958,2525,E+2,BBCCCMooDDLMooAALMooEEFFHIJKooHIJKGG,115,28,4,119]
-  [6186,3958,H+3,BBCCCMHoDDLMHoAALMooEEFFoIJKoooIJKGG,118,29,4,122]
-  [8268,6186,I+3,BBCCCMHIDDLMHIAALMooEEFFooJKooooJKGG,121,30,4,125]
-  [10475,8268,E-2,BBCCCMHIDDLMHIAALMEEooFFooJKooooJKGG,125,31,4,129]
-  [13679,10475,J+1,BBCCCMHIDDLMHIAALMEEJoFFooJKoooooKGG,130,32,4,134]
-  [16824,13679,K+1,BBCCCMHIDDLMHIAALMEEJKFFooJKooooooGG,135,33,4,139]
-  [19078,16824,G-4,BBCCCMHIDDLMHIAALMEEJKFFooJKooGGoooo,137,34,4,141]
-  [19959,19078,J-1,BBCCCMHIDDLMHIAALMEEoKFFooJKooGGJooo,142,35,4,146]
-  [21383,19959,K-1,BBCCCMHIDDLMHIAALMEEooFFooJKooGGJKoo,147,36,4,151]
-  [22465,21383,F-2,BBCCCMHIDDLMHIAALMEEFFooooJKooGGJKoo,151,37,4,155]
-  [23199,22465,L-3,BBCCCMHIDDoMHIAAoMEEFFooooJKLoGGJKLo,154,38,3,157]
-  [23466,23199,M-3,BBCCCoHIDDooHIAAooEEFFoMooJKLMGGJKLM,157,39,2,159]
-  [23735,23466,A+2,BBCCCoHIDDooHIooAAEEFFoMooJKLMGGJKLM,161,40,0,161]
-  
-  ET: XXXXX
-  TN: 23977
-  EN: 3062
-  CN: 20329
-  DF: 40
-  
 ---
 
 <a id="español"></a>
-# 🇪🇸 🚗 Rush Hour (Español)
+# 🇪🇸 Motor de Resolución Algorítmica: Rush Hour (Español)
 
 Un motor de resolución algorítmica avanzado y altamente optimizado para el clásico rompecabezas **Rush Hour**. Modelado mediante búsqueda en espacio de estados, este motor explora miles de configuraciones de tablero para encontrar la secuencia óptima de movimientos para liberar el coche rojo ('A') del atasco.
 
@@ -158,11 +130,47 @@ Permite extraer información específica de un estado del tablero o simular acci
 * `--goal`: Evalúa el tablero y devuelve `TRUE` si el coche rojo ha alcanzado la casilla de salida (2,5), o `FALSE` en caso contrario.
 * `--move <lista_movimientos>`: Simula una lista de movimientos consecutivos separados por comas (ej. `A+1,B-1`) y devuelve la cadena del estado resultante.
 
-*Ejemplos de uso:* > java RushHour question -s IBBoooIoooDDJoAAooJoKEEMooKooMGGHHHM --goal
-    FALSE
+### 💻 Ejemplos de uso
 
-    > java RushHour question -s IBBoooIoooDDJoAAooJoKEEMooKooMGGHHHM --move A+1,A+1
-    IBBoooIoooDDJoooAAJoKEEMooKooMGGHHHM
+**1. Consultas sobre el tablero y simulación de movimientos:**
+```bash
+> java RushHour question -s BBDDCoEoooCKEoAACKGoooooGoooooGoHHHo --whereis C
+(0,4)(1,4)(2,4)
+
+> java RushHour question -s IBBBoDIooJoDoAAJoooooJoMKKoooMooHHHo --what 3,5
+M
+
+> java RushHour question -s IoBBCCIDooooIDoAAoooJooMKKJooMoooHHH --size M
+2
+
+> java RushHour question -s IBBoooIoooDDJAAoooJoKEEMooKooMGGHHHM --howmany
+10
+
+> java RushHour question -s IBBoooIoooDDJoAAooJoKEEMooKooMGGHHHM --goal
+FALSE
+
+> java RushHour question -s IBBoooIoooDDJoAAooJoKEEMooKooMGGHHHM --move A+1,A+1
+IBBoooIoooDDJoooAAJoKEEMooKooMGGHHHM
+```
+
+**2. Resolver un nivel complejo con el algoritmo A'*' (Heurística 2 y Estadísticas):**
+```text
+> java RushHour solver -s HBBCCCHDDKoMAAJKoMEEJFFMoIooLooIGGLo --strategy AStar --heuristic 2 --stats
+ [0,none,___,HBBCCCHDDKoMAAJKoMEEJFFMoIooLooIGGLo,0,0,7,7]
+ [1,0,J-1,HBBCCCHDDKoMAAoKoMEEJFFMoIJoLooIGGLo,5,1,6,11]
+ [7,1,A+1,HBBCCCHDDKoMoAAKoMEEJFFMoIJoLooIGGLo,10,2,5,15]
+ [19,7,H-1,oBBCCCHDDKoMHAAKoMEEJFFMoIJoLooIGGLo,15,3,5,20]
+ [30,19,B-1,BBoCCCHDDKoMHAAKoMEEJFFMoIJoLooIGGLo,20,4,5,25]
+ ... [salida acortada por brevedad] ...
+ [23466,23199,M-3,BBCCCoHIDDooHIAAooEEFFoMooJKLMGGJKLM,157,39,2,159]
+ [23735,23466,A+2,BBCCCoHIDDooHIooAAEEFFoMooJKLMGGJKLM,161,40,0,161]
+  
+ ET: [tu_tiempo]ms
+ TN: 23977
+ EN: 3062
+ CN: 20329
+ DF: 40
+```
 
 ### Estrategias de Búsqueda Soportadas
 * **Búsqueda no informada:** `BFS` (Anchura), `DFS` (Profundidad), `UCS` (Costo Uniforme).
@@ -182,75 +190,3 @@ Para alcanzar tiempos de ejecución de primer nivel, se sacrificaron ciertas com
    * Uso de `PriorityQueue` (inserción ordenada) en la frontera de búsqueda para mantener los nodos ordenados por coste y heurística con una eficiencia de O(log n).
    * Uso de `HashMap` para la lista de nodos cerrados (visitados), mapeando las cadenas serializadas a sus valores, permitiendo podar caminos redundantes en un tiempo esperado de O(1).
    * Uso de `HashSet` en la fase de verificación inicial para detectar vehículos duplicados en tiempo O(n).
-
-
-### Ejemplos de uso
-
-> java RushHour question -s BBDDCoEoooCKEoAACKGoooooGoooooGoHHHo --whereis C
-  (0,4)(1,4)(2,4)
-
-> question -s IBBBoDIooJoDoAAJoooooJoMKKoooMooHHHo --what 3,5
-  M
-
-> java RushHour question -s IoBBCCIDooooIDoAAoooJooMKKJooMoooHHH --size M
-  2
-
-> java RushHour question -s IBBoooIoooDDJAAoooJoKEEMooKooMGGHHHM --howmany
-  10
-
-> java RushHour question -s IBBoooIoooDDJoAAooJoKEEMooKooMGGHHHM --goal
-  FALSE
-
-> java RushHour question -s IBBoooIoooDDJoAAooJoKEEMooKooMGGHHHM --move A+1,A+1
-  IBBoooIoooDDJoooAAJoKEEMooKooMGGHHHM
-
-> java RushHour solver -s HBBCCCHDDKoMAAJKoMEEJFFMoIooLooIGGLo --strategy AStar --heuristic 2  --stats
-
-  [0,none,___,HBBCCCHDDKoMAAJKoMEEJFFMoIooLooIGGLo,0,0,7,7]
-  [1,0,J-1,HBBCCCHDDKoMAAoKoMEEJFFMoIJoLooIGGLo,5,1,6,11]
-  [7,1,A+1,HBBCCCHDDKoMoAAKoMEEJFFMoIJoLooIGGLo,10,2,5,15]
-  [19,7,H-1,oBBCCCHDDKoMHAAKoMEEJFFMoIJoLooIGGLo,15,3,5,20]
-  [30,19,B-1,BBoCCCHDDKoMHAAKoMEEJFFMoIJoLooIGGLo,20,4,5,25]
-  [43,30,C-1,BBCCCoHDDKoMHAAKoMEEJFFMoIJoLooIGGLo,25,5,5,30]
-  [55,43,M+1,BBCCCMHDDKoMHAAKoMEEJFFooIJoLooIGGLo,30,6,5,35]
-  [66,55,F+1,BBCCCMHDDKoMHAAKoMEEJoFFoIJoLooIGGLo,35,7,5,40]
-  [76,66,K-2,BBCCCMHDDooMHAAooMEEJKFFoIJKLooIGGLo,39,8,4,43]
-  [78,76,A+2,BBCCCMHDDooMHooAAMEEJKFFoIJKLooIGGLo,43,9,2,45]
-  [90,78,D+2,BBCCCMHooDDMHooAAMEEJKFFoIJKLooIGGLo,47,10,2,49]
-  [114,90,J+2,BBCCCMHoJDDMHoJAAMEEoKFFoIoKLooIGGLo,51,11,2,53]
-  [134,114,E+1,BBCCCMHoJDDMHoJAAMoEEKFFoIoKLooIGGLo,56,12,2,58]
-  [147,134,H-3,BBCCCMooJDDMooJAAMoEEKFFHIoKLoHIGGLo,59,13,2,61]
-  [148,147,E-1,BBCCCMooJDDMooJAAMEEoKFFHIoKLoHIGGLo,64,14,2,66]
-  [160,148,J-2,BBCCCMoooDDMoooAAMEEJKFFHIJKLoHIGGLo,68,15,2,70]
-  [166,160,D-3,BBCCCMDDoooMoooAAMEEJKFFHIJKLoHIGGLo,71,16,2,73]
-  [176,166,A-3,BBCCCMDDoooMAAoooMEEJKFFHIJKLoHIGGLo,74,17,5,79]
-  [255,176,J+2,BBCCCMDDJooMAAJooMEEoKFFHIoKLoHIGGLo,78,18,6,84]
-  [336,255,K+2,BBCCCMDDJKoMAAJKoMEEooFFHIooLoHIGGLo,82,19,7,89]
-  [441,336,F-2,BBCCCMDDJKoMAAJKoMEEFFooHIooLoHIGGLo,86,20,7,93]
-  [547,441,L+3,BBCCCMDDJKLMAAJKLMEEFFooHIooooHIGGoo,89,21,8,97]
-  [687,547,F+2,BBCCCMDDJKLMAAJKLMEEooFFHIooooHIGGoo,93,22,8,101]
-  [926,687,G+2,BBCCCMDDJKLMAAJKLMEEooFFHIooooHIooGG,97,23,8,105]
-  [1323,926,J-3,BBCCCMDDoKLMAAoKLMEEooFFHIJoooHIJoGG,100,24,7,107]
-  [1658,1323,K-3,BBCCCMDDooLMAAooLMEEooFFHIJKooHIJKGG,103,25,6,109]
-  [2011,1658,A+2,BBCCCMDDooLMooAALMEEooFFHIJKooHIJKGG,107,26,4,111]
-  [2525,2011,D+2,BBCCCMooDDLMooAALMEEooFFHIJKooHIJKGG,111,27,4,115]
-  [3958,2525,E+2,BBCCCMooDDLMooAALMooEEFFHIJKooHIJKGG,115,28,4,119]
-  [6186,3958,H+3,BBCCCMHoDDLMHoAALMooEEFFoIJKoooIJKGG,118,29,4,122]
-  [8268,6186,I+3,BBCCCMHIDDLMHIAALMooEEFFooJKooooJKGG,121,30,4,125]
-  [10475,8268,E-2,BBCCCMHIDDLMHIAALMEEooFFooJKooooJKGG,125,31,4,129]
-  [13679,10475,J+1,BBCCCMHIDDLMHIAALMEEJoFFooJKoooooKGG,130,32,4,134]
-  [16824,13679,K+1,BBCCCMHIDDLMHIAALMEEJKFFooJKooooooGG,135,33,4,139]
-  [19078,16824,G-4,BBCCCMHIDDLMHIAALMEEJKFFooJKooGGoooo,137,34,4,141]
-  [19959,19078,J-1,BBCCCMHIDDLMHIAALMEEoKFFooJKooGGJooo,142,35,4,146]
-  [21383,19959,K-1,BBCCCMHIDDLMHIAALMEEooFFooJKooGGJKoo,147,36,4,151]
-  [22465,21383,F-2,BBCCCMHIDDLMHIAALMEEFFooooJKooGGJKoo,151,37,4,155]
-  [23199,22465,L-3,BBCCCMHIDDoMHIAAoMEEFFooooJKLoGGJKLo,154,38,3,157]
-  [23466,23199,M-3,BBCCCoHIDDooHIAAooEEFFoMooJKLMGGJKLM,157,39,2,159]
-  [23735,23466,A+2,BBCCCoHIDDooHIooAAEEFFoMooJKLMGGJKLM,161,40,0,161]
-  
-  ET: XXXXX
-  TN: 23977
-  EN: 3062
-  CN: 20329
-  DF: 40
-  
