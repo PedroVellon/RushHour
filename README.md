@@ -9,7 +9,7 @@
 <a id="english"></a>
 An advanced, highly-optimized algorithmic solver for the classic **Rush Hour** puzzle game. Modeled as a state-space search problem, this engine explores thousands of potential board configurations to find the optimal sequence of moves to free the red car ('A') from a traffic jam.
 
-🏆 **Achievement:** This implementation achieved **3rd place in the global efficiency and execution time ranking** of my university cohort, only surpassed by two legacy implementations written in low-level C/COBOL by the teaching staff.
+🏆 **Achievement:** This implementation achieved **3rd place in the global efficiency and execution time ranking** of my university cohort, only surpassed by two legacy implementations written in low-level by the teaching staff.
 
 ## 🧠 The Problem
 Rush Hour is played on a 6x6 grid. Vehicles (cars of length 2 and trucks of length 3) are placed horizontally or vertically. They can only move forward and backward along their axis. The goal is to clear a path so the red car ('A'), starting in a central row, can exit through the right edge of the board.
@@ -106,7 +106,7 @@ I would like to express my gratitude to the professors of the Intelligent System
 
 Un motor de resolución algorítmica avanzado y altamente optimizado para el clásico rompecabezas **Rush Hour**. Modelado mediante búsqueda en espacio de estados, este motor explora miles de configuraciones de tablero para encontrar la secuencia óptima de movimientos para liberar el coche rojo ('A') del atasco.
 
-🏆 **Logro destacado:** Esta implementación alcanzó el **3.er puesto en el ranking global de eficiencia y tiempo de ejecución** de mi promoción universitaria, superado únicamente por dos implementaciones docentes desarrolladas en lenguajes de bajo nivel (COBOL).
+🏆 **Logro destacado:** Esta implementación alcanzó el **3.er puesto en el ranking global de eficiencia y tiempo de ejecución** de mi promoción universitaria, superado únicamente por dos implementaciones docentes desarrolladas en lenguajes de bajo nivel.
 
 ## 🧠 El Problema
 Rush Hour se juega en una cuadrícula de 6x6. Los vehículos (coches de longitud 2 y camiones de longitud 3) están colocados horizontal o verticalmente y solo pueden moverse hacia adelante o hacia atrás en su eje. El objetivo es despejar el camino para que el coche rojo ('A'), que siempre empieza en una fila central, pueda salir por el borde derecho.
